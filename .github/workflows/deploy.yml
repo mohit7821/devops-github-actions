@@ -2,7 +2,8 @@ name: Deploy to AWS EC2
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -24,8 +25,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: "devops-app.tar.gz"
-          target: "/home/ubuntu"
+          source: devops-app.tar.gz
+          target: /home/ubuntu
 
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.0
@@ -38,4 +39,3 @@ jobs:
             docker stop app || true
             docker rm app || true
             docker run -d -p 3000:3000 --name app devops-app
-
